@@ -1,0 +1,142 @@
+📦 2. Field ko private kyun banate hain?
+
+Java me best practice ye hai ki class ke fields hamesha private rakhe jayein — iska reason Encapsulation (OOP principle) hai 👇
+
+@RestController
+public class DemoController {
+    public Coach myCoach;  // ❌ Dangerous
+
+    @GetMapping("/dailyworkout")
+    public String getDailyWorkout() {
+        return myCoach.getDailyWorkout();
+    }
+}
+
+
+@RestController
+public class DemoController {
+
+    // ✅ This is a private FIELD (not an interface)
+    private Coach myCoach;
+
+    // ✅ Constructor Injection
+    @Autowired
+    public DemoController(Coach theCoach) {
+        myCoach = theCoach;
+    }
+
+    @GetMapping("/dailyworkout")
+    public String getDailyWorkout() {
+        return myCoach.getDailyWorkout();
+    }
+}
+
+
+1. Class ke field ka matlab kya hota hai?
+
+👉 Field ka matlab hota hai: variables jo class ke andar declare kiye jaate hain (but kisi method ke andar nahi).
+Inhe hum instance variables ya member variables bhi kehte hain.simple 
+
+
+🧠 Step 1: Spring kis cheez ko inject karta hai?
+
+Spring sirf usi class का object inject करता है jo Spring container ke andar bean ke रूप में register होती है।
+
+और bean बनने के लिए class के ऊपर hum likhte hain:
+
+@Component
+
+@Service
+
+@Repository
+
+@Controller / @RestController
+
+👉 Tumhare example me:
+
+@Component
+class CricketCoach implements Coach {  ✅ Bean ban gaya
+    public String getDailyWorkout() {
+        return "Practice fast bowling for 15 minutes!";
+    }
+}
+
+
+✅ Yaha CricketCoach ko Spring ne bean bana diya — matlab Spring container uska object bana ke store karega.
+
+🧠 Step 2: Constructor injection me type dekh ke inject hota hai
+
+Jab tum constructor me likhte ho:
+
+public DemoController(Coach theCoach) {   // 👈 yeh Coach type maang raha hai
+    myCoach = theCoach;
+}
+
+
+Spring dekhta hai: “DemoController banane ke liye mujhe ek Coach type ka object chahiye.”
+
+Phir wo container me search karta hai: “Kya koi class hai jo Coach interface implement karti hai aur bean hai?”
+
+Spring ko milta hai 👇
+
+@Component
+class CricketCoach implements Coach { ... }
+
+
+✅ Bingo! Yehi class Coach implement karti hai aur bean bhi hai.
+Isliye Spring iska object bana ke theCoach me inject kar deta hai.
+
+🧠 Step 3: Agar ek se zyada implementation mile to?
+
+Agar tumhare paas 2 classes ho:
+
+@Component
+class CricketCoach implements Coach {...}
+
+@Component
+class FootballCoach implements Coach {...}
+
+
+Toh ab Spring confuse ho jayega:
+"Kaunsa inject karun? CricketCoach ya FootballCoach?"
+
+❌ Error aayega: NoUniqueBeanDefinitionException
+
+✅ Solution: Use @Qualifier
+
+@Autowired
+public DemoController(@Qualifier("cricketCoach") Coach theCoach) {
+    myCoach = theCoach;
+}
+
+
+Ab Spring specifically CricketCoach inject karega.
+
+🧠 Step 4: Tumhe kaise pata chalega ki kya inject hoga?
+
+Shortcut sochne ka tarika 👇
+
+Type check karo: Constructor me jo type likha hai (yaha Coach), Spring usi type ka bean dhundhega.
+
+Bean check karo: Kya koi class hai jo us type ko implement karti hai aur @Component ya similar annotation laga hai?
+
+✅ Agar 1 hi class milti hai → Spring wahi inject karega.
+
+⚠️ Agar multiple classes milti hain → @Qualifier lagana padega.
+
+❌ Agar koi class hi nahi milti → NoSuchBeanDefinitionException aayega.
+
+🔎 Ek chhota diagram soch lo:
+Interface: Coach
+      ↑
+      │
+      └── CricketCoach ( @Component ) ✅ Bean
+
+
+👉 Spring ne dekha: Coach type chahiye → CricketCoach implement karta hai → Inject kar do!
+
+✅ Short and Simple Rule:
+
+Jis type ki dependency tum constructor (ya field) me maang rahe ho, Spring usi type ka bean container me dhundta hai. Agar ek mil gaya → wahi inject karega.
+
+💡 Tip: Tum @Component class ka naam aur interface type dekh ke hamesha predict kar sakte ho ki Spring kya inject karega.
