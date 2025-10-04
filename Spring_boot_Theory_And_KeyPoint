@@ -175,3 +175,24 @@ public class SportConfig {
 @Configuration → Batata hai ki SportConfig ek configuration class hai.
 
 @Bean → Batata hai ki cricketCoach() ka return value (CricketCoach object) ek bean hai jisko Spring container manage karega.
+
+
+🌱 1. @SpringBootApplication class kya karti hai?
+
+@SpringBootApplication wali class tumhare Spring Boot project ki entry point hoti hai —
+matlab Java program wahi se start hota hai:
+
+public static void main(String[] args) {
+    SpringApplication.run(CruddemoApplication.class, args);
+}
+
+
+🔎 Ye line:
+
+Spring Boot application start karti hai
+
+Spring container (IoC) ko initialize karti hai
+
+Saare @Component, @Service, @Repository etc. beans ko scan aur load karti hai
+
+Aur project ko run kar deti hai 🚀
