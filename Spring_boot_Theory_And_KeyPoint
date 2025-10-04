@@ -140,3 +140,38 @@ Interface: Coach
 Jis type ki dependency tum constructor (ya field) me maang rahe ho, Spring usi type ka bean container me dhundta hai. Agar ek mil gaya → wahi inject karega.
 
 💡 Tip: Tum @Component class ka naam aur interface type dekh ke hamesha predict kar sakte ho ki Spring kya inject karega.
+
+
+1. @Configuration kya hai?
+
+👉 @Configuration ek annotation hai jo Spring ko batata hai ki ye class ek configuration class hai —
+matlab iske andar hum Spring Beans manually define karenge (Java code ke through), bina @Component ke.
+
+🔎 Simple definition:
+
+@Configuration lagane ka matlab hai — “Yeh class Spring container ke liye bean definitions contain karti hai.”
+
+📦 2. Kahaan use karte hain?
+
+Jab tumhe beans manually banana ho.
+
+Jab tum @Component ya @Service ki jagah code se bean create karna chahte ho.
+
+Jab tum beans ke behavior customize karna chahte ho.
+
+✅ 3. Basic Example
+@Configuration
+public class SportConfig {
+
+    @Bean
+    public Coach cricketCoach() {
+        return new CricketCoach();
+    }
+}
+
+
+📌 Explanation:
+
+@Configuration → Batata hai ki SportConfig ek configuration class hai.
+
+@Bean → Batata hai ki cricketCoach() ka return value (CricketCoach object) ek bean hai jisko Spring container manage karega.
