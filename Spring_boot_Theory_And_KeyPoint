@@ -196,3 +196,17 @@ Spring container (IoC) ko initialize karti hai
 Saare @Component, @Service, @Repository etc. beans ko scan aur load karti hai
 
 Aur project ko run kar deti hai 🚀
+
+
+
+persist ka use JPA / Hibernate me hota hai — ye ek method hai jo hum EntityManager ke through use karte hain, aur iska kaam hota hai:
+
+👉 Database me naya record insert karna (save karna)
+
+📌 Syntax:
+entityManager.persist(entityObject);
+
+
+entityManager → JPA ka object hai jo database ke sath interact karta hai.
+
+entityObject → Wo object hai jo aapne kisi @Entity class se banaya hai (jaise Student, Employee, etc.).
