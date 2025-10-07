@@ -210,3 +210,15 @@ entityManager.persist(entityObject);
 entityManager → JPA ka object hai jo database ke sath interact karta hai.
 
 entityObject → Wo object hai jo aapne kisi @Entity class se banaya hai (jaise Student, Employee, etc.).
+
+
+🔍 ObjectMapper Java me ek class hai jo Jackson library ka part hai, aur iska kaam hota hai —
+
+👉 Java objects ko JSON me convert karna aur
+👉 JSON ko Java objects me convert karna.
+
+Yaani simple shabdon me:
+
+Java ➝ JSON (Serialization)
+
+JSON ➝ Java (Deserialization)
