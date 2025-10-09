@@ -222,3 +222,82 @@ Yaani simple shabdon me:
 Java ➝ JSON (Serialization)
 
 JSON ➝ Java (Deserialization)
+
+
+
+public Employee patchEmployee(@PathVariable int employeeId,
+                              @RequestBody Map<String , Object> patchPayLoad)
+1️⃣ public
+This is an access modifier.
+
+Means this method can be accessed from anywhere, even from other classes or packages.
+
+2️⃣ Employee
+This is the return type of the method.
+
+It tells Java that this method will return an Employee object.
+
+Employee is likely a class in your project representing an employee.
+
+3️⃣ patchEmployee
+This is the name of the method.
+
+You can call it anything, but here it describes what the method does: patching/updating an employee.
+
+4️⃣ ( and )
+Parentheses enclose the parameters the method needs to work.
+
+5️⃣ @PathVariable
+This is a Spring annotation.
+
+It tells Spring: “Hey, get this value from the URL path”.
+
+Example: URL → /employee/5 → employeeId will be 5.
+
+6️⃣ int employeeId
+int → data type (integer).
+
+employeeId → variable name representing the ID of the employee we want to patch.
+
+So combining @PathVariable int employeeId → take the employee ID from the URL.
+
+7️⃣ @RequestBody
+Another Spring annotation.
+
+Tells Spring: “The request body (JSON sent from client) should be converted into this variable.”
+
+8️⃣ Map<String, Object> patchPayLoad
+This is the parameter type and name.
+
+Breaking it down:
+
+Map → a collection of key-value pairs.
+
+<String, Object> → the keys are strings (like "firstName", "salary") and values can be any type (Object) because it could be String, Integer, etc.
+
+patchPayLoad → variable name holding the data sent by the client in the request body.
+
+Example JSON request:
+
+json
+Copy code
+{
+  "firstName": "Azeem",
+  "salary": 50000
+}
+This will be converted into a Map with keys "firstName" and "salary".
+
+✅ Putting it all together
+Method is public → can be accessed from anywhere.
+
+Returns an Employee object.
+
+Name of the method is patchEmployee.
+
+Takes two inputs:
+
+employeeId → from URL path (e.g., /employee/5)
+
+patchPayLoad → from request body (JSON) with fields to update
+
+This method is usually used in PATCH HTTP requests to partially update an employee.
